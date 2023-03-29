@@ -1,6 +1,7 @@
 import { ChangeEvent, MouseEvent, useState } from 'react';
+import { useStateContext } from '../../../contexts/ContextProvider';
 import { CalculatorResult } from '../../../types/calculatorResult.type';
-import { calculateDiff } from '../hooks/calculateDiff';
+import { CalculatorService } from '../services/CalculatorService.service';
 import CalculatorInput from './CalculatorInput';
 
 interface Props {
@@ -8,76 +9,95 @@ interface Props {
 }
 
 export default function CalculatorBlock({ onNewCalculation }: Props) {
-  const [arrayInput, setArrayInput] = useState('');
-  const [objectiveValue, setObjectiveValue] = useState('');
+  const { setIsLoading } = useStateContext();
 
-  const changeArrayInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setArrayInput(e.target.value);
+  const [arrayAsString, setArrayAsString] = useState('');
+  const [arrayAsStringError, setArrayAsStringError] = useState({
+    hasError: false,
+    errorText: '',
+  });
+
+  const [objectiveValue, setObjectiveValue] = useState('');
+  const [objectiveValueError, setObjectiveValueError] = useState({
+    hasError: false,
+    errorText: '',
+  });
+
+  const changeArrayAsString = (e: ChangeEvent<HTMLInputElement>) => {
+    setArrayAsString(e.target.value);
   };
 
   const changeObjectiveValue = (e: ChangeEvent<HTMLInputElement>) => {
     setObjectiveValue(e.target.value);
   };
 
-  const parseArray = (): number[] => {
-    const onlyNumbersString = arrayInput.slice(1, arrayInput.length - 1);
-    const numberArray = onlyNumbersString
-      .split(',')
-      .map((number) => parseInt(number));
-    return numberArray;
+  const isValidArray = () => {
+    const regex = /^\[[1-9]\d*(,\s*[1-9]\d*){1,}\]$/;
+    const validArray = regex.test(arrayAsString);
+    if (!validArray) {
+      setArrayAsStringError({ hasError: true, errorText: 'Array inválido' });
+    } else {
+      setArrayAsStringError({ hasError: false, errorText: '' });
+    }
+
+    return validArray;
   };
 
-  const isValidArray = (arrayString: string) => {
-    if (arrayString.length === 0) return false;
+  const isValidObjectiveValue = () => {
+    const objectNumber = parseInt(objectiveValue);
+    const invalidObjectiveValue =
+      !objectNumber || objectNumber === null || objectNumber === 0;
+    if (invalidObjectiveValue) {
+      setObjectiveValueError({
+        hasError: true,
+        errorText: 'Valor objetivo inválido',
+      });
+    } else {
+      setObjectiveValueError({
+        hasError: false,
+        errorText: '',
+      });
+    }
+    return !invalidObjectiveValue;
+  };
 
-    const regex = /^\[[1-9]\d*(,\s*[1-9]\d*)*\]$/;
-    return regex.test(arrayString);
+  const isValid = () => {
+    const validArray = isValidArray();
+    const validObjectiveValue = isValidObjectiveValue();
+    return validArray && validObjectiveValue;
   };
 
   const calculate = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!isValidArray(arrayInput)) return;
+    if (!isValid()) return;
 
-    const numberArray = parseArray();
-    const objectiveNumber = parseInt(objectiveValue);
-    // const count = countPairsWithDiff(numberArray, objectiveNumber);
-
-    const payload = {
-      array: numberArray,
-      objectiveValue: objectiveNumber,
-    };
-
-    calculateDiff(payload)
-      .then(({ result }) => {
-        console.log(result);
-        const newResult: CalculatorResult = {
-          array: numberArray,
-          objectiveValue: objectiveNumber,
-          result: result,
-        };
-        onNewCalculation(newResult);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    setIsLoading(true);
+    CalculatorService.calculatePairs(arrayAsString, objectiveValue)
+      .then((result) => onNewCalculation(result))
+      .catch((e) => console.log(e))
+      .finally(() => setIsLoading(false));
   };
 
   return (
     <>
       <h3 className="text-4xl font-bold uppercase">Calculator</h3>
-      <div className="flex w-full mt-8">
+      <div className="flex flex-col md:flex-row w-full mt-8">
         <CalculatorInput
+          label="Arreglo de números enteros"
           type="text"
-          value={arrayInput}
+          value={arrayAsString}
           name="array"
           placeholder="[1, 4, 3, 2, 5]"
-          onChange={changeArrayInput}
+          error={arrayAsStringError}
+          onChange={changeArrayAsString}
         />
         <CalculatorInput
+          label="Valor objetivo"
           type="number"
           value={objectiveValue}
           name="objectiveValue"
           placeholder="2"
+          error={objectiveValueError}
           onChange={changeObjectiveValue}
         />
       </div>

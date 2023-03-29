@@ -410,4 +410,92 @@ print_r(json_decode((string) $body));
 
 <!-- END_00e7e21641f05de650dbe13f242c6f2c -->
 
+#Calculador
+
+
+APIs para realizar diferentes cálculos
+<!-- START_21ea5da444b8f98bd6ce6cab338015c5 -->
+## Problema: Calcular los pares
+Determina el número de pares de elementos que tienen una diferencia igual al valor objetivo
+dentro de una matriz de enteros positivos.
+
+> Example request:
+
+```bash
+curl -X POST \
+    "http://api-sugarcrm.casabaca.com/api/calculatePairs" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}" \
+    -d '{"array":"[1, 2, 5, 4, 3]","objectiveValue":2}'
+
+```
+
+```javascript
+const url = new URL(
+    "http://api-sugarcrm.casabaca.com/api/calculatePairs"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+let body = {
+    "array": "[1, 2, 5, 4, 3]",
+    "objectiveValue": 2
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->post(
+    'http://api-sugarcrm.casabaca.com/api/calculatePairs',
+    [
+        'headers' => [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer {token}',
+        ],
+        'json' => [
+            'array' => '[1, 2, 5, 4, 3]',
+            'objectiveValue' => 2,
+        ],
+    ]
+);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+
+> Example response (200):
+
+```json
+{
+    "status_code": "200",
+    "result": 3
+}
+```
+
+### HTTP Request
+`POST api/calculatePairs`
+
+#### Body Parameters
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    `array` | array |  required  | Matriz de enteros positivos.
+        `objectiveValue` | integer |  required  | Valor objetivo que debe ser igual a la diferencia entre los pares.
+    
+<!-- END_21ea5da444b8f98bd6ce6cab338015c5 -->
+
 

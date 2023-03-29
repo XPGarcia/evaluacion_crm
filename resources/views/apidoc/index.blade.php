@@ -459,6 +459,97 @@ print_r(json_decode((string) $body));</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/logout</code></p>
 <!-- END_00e7e21641f05de650dbe13f242c6f2c -->
+<h1>Calculador</h1>
+<p>APIs para realizar diferentes cálculos</p>
+<!-- START_21ea5da444b8f98bd6ce6cab338015c5 -->
+<h2>Problema: Calcular los pares</h2>
+<p>Determina el número de pares de elementos que tienen una diferencia igual al valor objetivo
+dentro de una matriz de enteros positivos.</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST \
+    "http://api-sugarcrm.casabaca.com/api/calculatePairs" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}" \
+    -d '{"array":"[1, 2, 5, 4, 3]","objectiveValue":2}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://api-sugarcrm.casabaca.com/api/calculatePairs"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+let body = {
+    "array": "[1, 2, 5, 4, 3]",
+    "objectiveValue": 2
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;post(
+    'http://api-sugarcrm.casabaca.com/api/calculatePairs',
+    [
+        'headers' =&gt; [
+            'Content-Type' =&gt; 'application/json',
+            'Accept' =&gt; 'application/json',
+            'Authorization' =&gt; 'Bearer {token}',
+        ],
+        'json' =&gt; [
+            'array' =&gt; '[1, 2, 5, 4, 3]',
+            'objectiveValue' =&gt; 2,
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "status_code": "200",
+    "result": 3
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/calculatePairs</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>array</code></td>
+<td>array</td>
+<td>required</td>
+<td>Matriz de enteros positivos.</td>
+</tr>
+<tr>
+<td><code>objectiveValue</code></td>
+<td>integer</td>
+<td>required</td>
+<td>Valor objetivo que debe ser igual a la diferencia entre los pares.</td>
+</tr>
+</tbody>
+</table>
+<!-- END_21ea5da444b8f98bd6ce6cab338015c5 -->
       </div>
       <div class="dark-box">
                         <div class="lang-selector">

@@ -28,10 +28,7 @@ class AuthenticatedSessionController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(LoginRequest $request)
-    {
-        print("here");
-        print($request);    
-
+    {    
         $request->authenticate();
 
         $request->session()->regenerate();
@@ -47,6 +44,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
+        error_log("heeere");
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

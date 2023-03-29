@@ -1,9 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useStateContext } from '../../contexts/ContextProvider';
-import { login } from './hooks/login';
+import { AuthService } from '../../services/auth.service';
 
 export default function Login() {
-  const { setToken } = useStateContext();
+  const { setUser, setToken, setIsLoading } = useStateContext();
 
   const [email, _setEmail] = useState('');
   const [password, _setPassword] = useState('');
@@ -19,15 +19,20 @@ export default function Login() {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const payload = {
-      autorizador: 'a9m1n@sugarcrm.com',
+      autorizador: import.meta.env.VITE_AUTORIZADOR_LOGIN,
       email: email,
       password: password,
       environment: 'dev',
     };
 
-    login(payload)
-      .then(({ token }) => setToken(token))
-      .catch((e) => console.log(e));
+    setIsLoading(true);
+    AuthService.login(payload)
+      .then(({ token }) => {
+        setUser({ email });
+        setToken(token);
+      })
+      .catch((e) => console.log(e))
+      .finally(() => setIsLoading(false));
   };
 
   return (

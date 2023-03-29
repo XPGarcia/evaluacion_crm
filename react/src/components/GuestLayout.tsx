@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useStateContext } from '../contexts/ContextProvider';
+import Loader from './Loader';
 
 export default function GuestLayout() {
   const { token } = useStateContext();
@@ -7,8 +8,11 @@ export default function GuestLayout() {
   if (token) return <Navigate to="/" />;
 
   return (
-    <div className="w-full h-screen flex justify-center items-center">
-      <Outlet />
-    </div>
+    <>
+      <Loader />
+      <div className="w-full h-screen flex justify-center items-center">
+        <Outlet />
+      </div>
+    </>
   );
 }
