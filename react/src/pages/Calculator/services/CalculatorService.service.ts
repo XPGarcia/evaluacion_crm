@@ -1,5 +1,6 @@
 import { HttpStatusCode } from 'axios';
 import axiosClient from '../../../http/axios-client';
+import { AuthService } from '../../../services/auth.service';
 import { CalculatorResult } from '../../../types/calculatorResult.type';
 
 interface CalculatePairsResponse {
@@ -9,8 +10,13 @@ interface CalculatePairsResponse {
 }
 
 interface CalculatePairsPayload {
+  userEmail: string;
   array: number[];
   objectiveValue: number;
+}
+
+interface GetCalculatedPairsResponse {
+  data: { array: number[]; objective_value: number; result: number }[];
 }
 
 export class CalculatorService {
@@ -19,6 +25,7 @@ export class CalculatorService {
     objectiveValue: string
   ): Promise<CalculatorResult> {
     const payload: CalculatePairsPayload = {
+      userEmail: AuthService.getUser().email,
       array: this.parseArray(arrayAsString),
       objectiveValue: parseInt(objectiveValue),
     };
@@ -35,6 +42,25 @@ export class CalculatorService {
       objectiveValue: payload.objectiveValue,
       result: data.result!,
     };
+  }
+
+  static async getCalculatedPairs(): Promise<CalculatorResult[]> {
+    const { data, status } = await axiosClient.get<GetCalculatedPairsResponse>(
+      '/getCalculatedPairs',
+      {
+        params: { userEmail: AuthService.getUser().email },
+      }
+    );
+
+    if (!data.data) throw Error('Something went wrong');
+
+    return data.data.map((calculatedPair) => {
+      return {
+        array: calculatedPair.array,
+        objectiveValue: calculatedPair.objective_value,
+        result: calculatedPair.result,
+      };
+    });
   }
 
   private static parseArray(arrayAsString: string): number[] {

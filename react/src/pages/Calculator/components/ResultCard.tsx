@@ -9,7 +9,9 @@ export default function ResultCard({ result }: Props) {
 
   return (
     <div className="flex flex-col justify-center items-center bg-purple-400 text-white rounded shadow">
-      <div className="font-semibold text-lg p-3">{arrayString}</div>
+      <div className="font-semibold text-lg p-3 max-h-[100px] overflow-y-auto">
+        {arrayString}
+      </div>
       <div className="w-11/12 bg-white" style={{ height: '1px' }} />
       <div className="flex w-full p-3">
         <div className="w-1/2 border-r border-white">

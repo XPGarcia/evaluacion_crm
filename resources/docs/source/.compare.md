@@ -416,7 +416,7 @@ print_r(json_decode((string) $body));
 APIs para realizar diferentes cálculos
 <!-- START_21ea5da444b8f98bd6ce6cab338015c5 -->
 ## Problema: Calcular los pares
-Determina el número de pares de elementos que tienen una diferencia igual al valor objetivo
+Determina la cantidad de pares de números que tienen una diferencia igual al valor objetivo
 dentro de una matriz de enteros positivos.
 
 > Example request:
@@ -427,7 +427,7 @@ curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
-    -d '{"array":"[1, 2, 5, 4, 3]","objectiveValue":2}'
+    -d '{"userEmail":"xavier.garcia@prometeo.dev","array":"[1, 2, 5, 4, 3]","objectiveValue":2}'
 
 ```
 
@@ -443,6 +443,7 @@ let headers = {
 };
 
 let body = {
+    "userEmail": "xavier.garcia@prometeo.dev",
     "array": "[1, 2, 5, 4, 3]",
     "objectiveValue": 2
 }
@@ -468,6 +469,7 @@ $response = $client->post(
             'Authorization' => 'Bearer {token}',
         ],
         'json' => [
+            'userEmail' => 'xavier.garcia@prometeo.dev',
             'array' => '[1, 2, 5, 4, 3]',
             'objectiveValue' => 2,
         ],
@@ -493,7 +495,8 @@ print_r(json_decode((string) $body));
 #### Body Parameters
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    `array` | array |  required  | Matriz de enteros positivos.
+    `userEmail` | email |  required  | Email del usuario que realizó el cálculo.
+        `array` | array |  required  | Matriz de enteros positivos.
         `objectiveValue` | integer |  required  | Valor objetivo que debe ser igual a la diferencia entre los pares.
     
 <!-- END_21ea5da444b8f98bd6ce6cab338015c5 -->

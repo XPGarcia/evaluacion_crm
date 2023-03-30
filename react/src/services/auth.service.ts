@@ -4,7 +4,9 @@ import {
   LoginResponse,
   LogoutPayload,
   LogoutResponse,
+  User,
 } from '../types';
+import { Global } from '../utils/global';
 
 export class AuthService {
   static async login(payload: LoginPayload): Promise<{ token: string }> {
@@ -26,5 +28,12 @@ export class AuthService {
     if (!data.token && data.message) throw Error(data.message);
 
     return true;
+  }
+
+  static getUser(): User {
+    const userString = localStorage.getItem(Global.userKey);
+    if (!userString) throw Error('User not found');
+
+    return JSON.parse(userString);
   }
 }

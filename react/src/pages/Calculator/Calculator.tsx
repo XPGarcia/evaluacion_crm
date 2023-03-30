@@ -1,36 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useStateContext } from '../../contexts/ContextProvider';
 import { CalculatorResult } from '../../types/calculatorResult.type';
 import CalculatorBlock from './components/CalculatorBlock';
 import Results from './components/Results';
+import { CalculatorService } from './services/CalculatorService.service';
 
 export default function Calculator() {
+  const { setIsLoading } = useStateContext();
+
   const [results, setResults] = useState<CalculatorResult[]>([]);
 
-  const countPairsWithDiff = (arr: number[], targetDiff: number) => {
-    arr.sort((a, b) => a - b);
-
-    let count = 0;
-    let left = 0;
-    let right = 1;
-
-    while (right < arr.length) {
-      const diff = arr[right] - arr[left];
-      if (diff === targetDiff) {
-        count++;
-        left++;
-        right++;
-      } else if (diff < targetDiff) {
-        right++;
-      } else {
-        left++;
-        if (left === right) {
-          right++;
-        }
-      }
-    }
-
-    return count;
-  };
+  useEffect(() => {
+    setIsLoading(true);
+    CalculatorService.getCalculatedPairs()
+      .then((calculatedPairs) => setResults(calculatedPairs))
+      .catch((e) => console.log(e))
+      .finally(() => setIsLoading(false));
+  }, []);
 
   const updateResults = (result: CalculatorResult) => {
     setResults([...results, result]);

@@ -463,7 +463,7 @@ print_r(json_decode((string) $body));</code></pre>
 <p>APIs para realizar diferentes cálculos</p>
 <!-- START_21ea5da444b8f98bd6ce6cab338015c5 -->
 <h2>Problema: Calcular los pares</h2>
-<p>Determina el número de pares de elementos que tienen una diferencia igual al valor objetivo
+<p>Determina la cantidad de pares de números que tienen una diferencia igual al valor objetivo
 dentro de una matriz de enteros positivos.</p>
 <blockquote>
 <p>Example request:</p>
@@ -473,7 +473,7 @@ dentro de una matriz de enteros positivos.</p>
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -H "Authorization: Bearer {token}" \
-    -d '{"array":"[1, 2, 5, 4, 3]","objectiveValue":2}'
+    -d '{"userEmail":"xavier.garcia@prometeo.dev","array":"[1, 2, 5, 4, 3]","objectiveValue":2}'
 </code></pre>
 <pre><code class="language-javascript">const url = new URL(
     "http://api-sugarcrm.casabaca.com/api/calculatePairs"
@@ -486,6 +486,7 @@ let headers = {
 };
 
 let body = {
+    "userEmail": "xavier.garcia@prometeo.dev",
     "array": "[1, 2, 5, 4, 3]",
     "objectiveValue": 2
 }
@@ -508,6 +509,7 @@ $response = $client-&gt;post(
             'Authorization' =&gt; 'Bearer {token}',
         ],
         'json' =&gt; [
+            'userEmail' =&gt; 'xavier.garcia@prometeo.dev',
             'array' =&gt; '[1, 2, 5, 4, 3]',
             'objectiveValue' =&gt; 2,
         ],
@@ -535,6 +537,12 @@ print_r(json_decode((string) $body));</code></pre>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>userEmail</code></td>
+<td>email</td>
+<td>required</td>
+<td>Email del usuario que realizó el cálculo.</td>
+</tr>
 <tr>
 <td><code>array</code></td>
 <td>array</td>

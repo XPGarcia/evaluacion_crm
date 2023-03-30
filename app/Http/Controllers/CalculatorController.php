@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use http\Env\Response;
+use App\Models\CalculatedPairs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use CalculatedPairsTransformer;
 
 /**
  * @group Calculador
  *
  * APIs para realizar diferentes cálculos
  */
-class CalculatorController extends Controller
+class CalculatorController extends BaseController 
 {
 
     private function countPairs($arr, $value) {
@@ -46,6 +47,7 @@ class CalculatorController extends Controller
      * Determina la cantidad de pares de números que tienen una diferencia igual al valor objetivo
      * dentro de una matriz de enteros positivos. 
      *
+     * @bodyParam  userEmail email required  Email del usuario que realizó el cálculo. Example: xavier.garcia@prometeo.dev
      * @bodyParam  array array required  Matriz de enteros positivos. Example: [1, 2, 5, 4, 3]
      * @bodyParam  objectiveValue integer required Valor objetivo que debe ser igual a la diferencia entre los pares. Example: 2
      *
@@ -58,8 +60,9 @@ class CalculatorController extends Controller
     {
 
       $request->validate([
+        'userEmail' => 'required|email',
         'array' => 'required|array|min:2',
-        'array.*' => 'integer|min:0',
+        'array.*' => 'integer|min:1',
         'objectiveValue' => 'required|integer|min:1',
       ]);
 
@@ -67,9 +70,57 @@ class CalculatorController extends Controller
       $value = $request->objectiveValue;
       $count = $this->countPairs($arr, $value);
 
+      $arr_as_string = '['.implode(',', $request->array).']';
+
+      $calculated_pair = new CalculatedPairs();
+      $calculated_pair->setConnection('mysql');
+      $calculated_pair->user_email = $request->userEmail;
+      $calculated_pair->array = $arr_as_string;
+      $calculated_pair->objective_value = $request->objectiveValue;
+      $calculated_pair->result = $count;
+      $calculated_pair->save();
+
       return response()->json([
         'status_code' => 200,
         'result' => $count
       ]);
+    }
+
+    /**
+     * Obtiene los resultados del cálculo de pares de un usuario
+     *
+     * @bodyParam  userEmail email required Correo del usuario  Example: xavier.garcia@prometeo.dev
+     *
+     * @response  {
+     * "data": [
+     *      {
+     *          "id": "asdasdasd",
+     *          "array": [1,5,2,4,3],
+     *          "objective_value": 2,
+     *          "result": 3
+     *    },
+     *    {
+     *          "id": "asdasdasdddd",
+     *          "array": [1,2,3],
+     *          "objective_value": 1,
+     *          "result": 2
+     *    }
+     * ]
+     * }
+     *
+     * @response 500 {
+     *  "message": "Unauthenticated.",
+     *  "status_code": 500
+     * }
+     */
+    public function getCalculatedPairs(Request $request)
+    {
+        $request->validate([
+          'userEmail' => 'required|email'
+        ]);
+
+        $calculated_pairs = CalculatedPairs::get_calculated_pairs_by_user_email($request->userEmail);
+
+        return $this->response->collection($calculated_pairs, new CalculatedPairsTransformer)->setStatusCode(200);
     }
 }

@@ -13,13 +13,14 @@ export default function DefaultLayout() {
 
     setIsLoading(true);
     AuthService.logout({ email: user?.email })
-      .then(() => {
+      .then(() => {})
+      .catch((e) => console.log(e))
+      .finally(() => {
         setUser(null);
         setToken(null);
         <Navigate to="/login" />;
-      })
-      .catch((e) => console.log(e))
-      .finally(() => setIsLoading(false));
+        setIsLoading(false);
+      });
   };
 
   return (

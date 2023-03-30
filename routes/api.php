@@ -37,4 +37,8 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
 $api->version('v1', ['middleware' => []], function ($api) {
     $api->post('calculatePairs', 'App\Http\Controllers\CalculatorController@calculatePairs');
 });
+
+$api->version('v1', ['middleware' => []], function ($api) {
+    $api->get('getCalculatedPairs', 'App\Http\Controllers\CalculatorController@getCalculatedPairs');
+});
  
