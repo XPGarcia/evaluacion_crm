@@ -1,7 +1,7 @@
 import { HttpStatusCode } from 'axios';
 import axiosClient from '../../../http/axios-client';
 import { AuthService } from '../../../services/auth.service';
-import { CalculatorResult } from '../../../types/calculatedPair';
+import { CalculatedPair } from '../../../types/calculatedPair';
 
 interface CalculatePairsResponse {
   status_code: HttpStatusCode;
@@ -23,7 +23,7 @@ export class CalculatorService {
   static async calculatePairs(
     arrayAsString: string,
     objectiveValue: string
-  ): Promise<CalculatorResult> {
+  ): Promise<CalculatedPair> {
     const payload: CalculatePairsPayload = {
       userEmail: AuthService.getUser().email,
       array: this.parseArray(arrayAsString),
@@ -44,7 +44,7 @@ export class CalculatorService {
     };
   }
 
-  static async getCalculatedPairs(): Promise<CalculatorResult[]> {
+  static async getCalculatedPairs(): Promise<CalculatedPair[]> {
     const { data, status } = await axiosClient.get<GetCalculatedPairsResponse>(
       '/getCalculatedPairs',
       {

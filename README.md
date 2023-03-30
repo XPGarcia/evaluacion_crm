@@ -20,7 +20,7 @@
 
 -   Desde la raíz del proyecto ingresar al directorio react ejecutando el comando cd ./react
 -   Ejecutar npm install
--   Crear archivo .env y modificar las variables como se explica en .env.example (o copiar del archivo .env.react)
+-   Crear archivo .env (dentro del directorio /react) y modificar las variables como se explica en .env.example (o copiar del archivo .env.react)
 -   Ejecutar npm run dev
 
 ## About Laravel

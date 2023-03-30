@@ -1,8 +1,8 @@
-import { CalculatorResult } from '../../../types/calculatedPair';
+import { CalculatedPair } from '../../../types/calculatedPair';
 import ResultCard from './ResultCard';
 
 interface Props {
-  results: CalculatorResult[];
+  results: CalculatedPair[];
 }
 
 export default function Results({ results }: Props) {
