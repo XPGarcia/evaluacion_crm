@@ -2,6 +2,7 @@
 
 ### Prerequisitos
 
+-   PHP 7.3
 -   Composer^2.0.10
 -   Node^14.16
 -   MySql
@@ -13,7 +14,7 @@
 -   Modificar variables del archivo .env de acuedo al ambiente (modificar el usuario y contraseña de bases de datos)
 -   Crear App_Key -> ejecutar php artisan key:generate
 -   Ejecutar php artisan migrate
--   Ejecutar npm install o npm install --legacy-peer-deps dependiendo de la versión de node (^16.13)
+-   Ejecutar npm install o npm install --legacy-peer-deps dependiendo de la versión de npm
 -   Ejecutar php artisan serve para correr el servidor
 
 ## Instalación React
@@ -22,6 +23,17 @@
 -   Ejecutar npm install
 -   Crear archivo .env (dentro del directorio /react) y modificar las variables como se explica en .env.example (o copiar del archivo .env.react)
 -   Ejecutar npm run dev
+
+## Utilizar la API
+
+-   Ingresar a la ruta del front end
+-   Ingresar con un usuario de API
+-   Calculadora del problema de pares. Input de la izquierda es el arreglo, por ejemplo: [1, 2, 3]. Input de la derecha es el valor objetivo, por ejemplo 1
+
+## Hosting de la prueba
+
+-   AWS EC2 para hosting de la aplicación laravel y bases de datos.
+-   AWS amplify para hosting de la aplicación react.
 
 ## About Laravel
 
