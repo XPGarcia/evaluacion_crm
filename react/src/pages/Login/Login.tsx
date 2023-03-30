@@ -3,7 +3,8 @@ import { useStateContext } from '../../contexts/ContextProvider';
 import { AuthService } from '../../services/auth.service';
 
 export default function Login() {
-  const { setUser, setToken, setIsLoading } = useStateContext();
+  const { setUser, setToken, setIsLoading, openErrorSnackbar } =
+    useStateContext();
 
   const [email, _setEmail] = useState('');
   const [password, _setPassword] = useState('');
@@ -31,7 +32,10 @@ export default function Login() {
         setUser({ email });
         setToken(token);
       })
-      .catch((e) => console.log(e))
+      .catch((e) => {
+        console.log(e);
+        openErrorSnackbar();
+      })
       .finally(() => setIsLoading(false));
   };
 

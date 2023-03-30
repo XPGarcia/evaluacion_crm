@@ -1,7 +1,7 @@
 import { HttpStatusCode } from 'axios';
 import axiosClient from '../../../http/axios-client';
 import { AuthService } from '../../../services/auth.service';
-import { CalculatorResult } from '../../../types/calculatorResult.type';
+import { CalculatorResult } from '../../../types/calculatedPair';
 
 interface CalculatePairsResponse {
   status_code: HttpStatusCode;

@@ -1,7 +1,7 @@
-import { CalculatorResult } from '../../../types/calculatorResult.type';
+import { CalculatedPair } from '../../../types/calculatedPair';
 
 interface Props {
-  result: CalculatorResult;
+  result: CalculatedPair;
 }
 
 export default function ResultCard({ result }: Props) {

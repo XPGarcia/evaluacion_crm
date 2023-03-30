@@ -1,4 +1,4 @@
-import { CalculatorResult } from '../../../types/calculatorResult.type';
+import { CalculatorResult } from '../../../types/calculatedPair';
 import ResultCard from './ResultCard';
 
 interface Props {

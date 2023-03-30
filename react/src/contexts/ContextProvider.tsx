@@ -10,16 +10,20 @@ const StateContext = createContext<{
   user: User | null;
   token: string | null;
   isLoading: boolean;
+  hasError: boolean;
   setUser: (user: User | null) => void;
   setToken: (token: string | null) => void;
   setIsLoading: (isLoading: boolean) => void;
+  openErrorSnackbar: () => void;
 }>({
   user: null,
   token: null,
   isLoading: false,
+  hasError: false,
   setUser: (user: User | null) => {},
   setToken: (token: string | null) => {},
   setIsLoading: (isLoading: boolean) => {},
+  openErrorSnackbar: () => {},
 });
 
 export const ContextProvider = ({ children }: Props) => {
@@ -31,6 +35,8 @@ export const ContextProvider = ({ children }: Props) => {
   );
 
   const [isLoading, _setIsLoading] = useState(false);
+
+  const [hasError, setHasError] = useState(false);
 
   const setUser = (user: User | null) => {
     _setUser(user);
@@ -56,9 +62,26 @@ export const ContextProvider = ({ children }: Props) => {
     _setIsLoading(isLoading);
   };
 
+  const openErrorSnackbar = () => {
+    setHasError(true);
+
+    setTimeout(() => {
+      setHasError(false);
+    }, 5000);
+  };
+
   return (
     <StateContext.Provider
-      value={{ user, token, isLoading, setUser, setToken, setIsLoading }}
+      value={{
+        user,
+        token,
+        isLoading,
+        hasError,
+        setUser,
+        setToken,
+        setIsLoading,
+        openErrorSnackbar,
+      }}
     >
       {children}
     </StateContext.Provider>

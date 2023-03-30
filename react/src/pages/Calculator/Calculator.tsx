@@ -1,24 +1,27 @@
 import { useEffect, useState } from 'react';
 import { useStateContext } from '../../contexts/ContextProvider';
-import { CalculatorResult } from '../../types/calculatorResult.type';
+import { CalculatedPair } from '../../types/calculatedPair';
 import CalculatorBlock from './components/CalculatorBlock';
 import Results from './components/Results';
 import { CalculatorService } from './services/CalculatorService.service';
 
 export default function Calculator() {
-  const { setIsLoading } = useStateContext();
+  const { setIsLoading, openErrorSnackbar } = useStateContext();
 
-  const [results, setResults] = useState<CalculatorResult[]>([]);
+  const [results, setResults] = useState<CalculatedPair[]>([]);
 
   useEffect(() => {
     setIsLoading(true);
     CalculatorService.getCalculatedPairs()
       .then((calculatedPairs) => setResults(calculatedPairs))
-      .catch((e) => console.log(e))
+      .catch((e) => {
+        console.log(e);
+        openErrorSnackbar();
+      })
       .finally(() => setIsLoading(false));
   }, []);
 
-  const updateResults = (result: CalculatorResult) => {
+  const updateResults = (result: CalculatedPair) => {
     setResults([...results, result]);
   };
 

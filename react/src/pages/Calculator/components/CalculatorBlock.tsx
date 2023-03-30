@@ -1,15 +1,15 @@
 import { ChangeEvent, MouseEvent, useState } from 'react';
 import { useStateContext } from '../../../contexts/ContextProvider';
-import { CalculatorResult } from '../../../types/calculatorResult.type';
+import { CalculatedPair } from '../../../types/calculatedPair';
 import { CalculatorService } from '../services/CalculatorService.service';
 import CalculatorInput from './CalculatorInput';
 
 interface Props {
-  onNewCalculation: (result: CalculatorResult) => void;
+  onNewCalculation: (result: CalculatedPair) => void;
 }
 
 export default function CalculatorBlock({ onNewCalculation }: Props) {
-  const { setIsLoading } = useStateContext();
+  const { setIsLoading, openErrorSnackbar } = useStateContext();
 
   const [arrayAsString, setArrayAsString] = useState('');
   const [arrayAsStringError, setArrayAsStringError] = useState({
@@ -74,7 +74,10 @@ export default function CalculatorBlock({ onNewCalculation }: Props) {
     setIsLoading(true);
     CalculatorService.calculatePairs(arrayAsString, objectiveValue)
       .then((result) => onNewCalculation(result))
-      .catch((e) => console.log(e))
+      .catch((e) => {
+        console.log(e);
+        openErrorSnackbar();
+      })
       .finally(() => setIsLoading(false));
   };
 

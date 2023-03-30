@@ -1,3 +1,3 @@
 export * from './auth.type';
-export * from './calculatorResult.type';
+export * from './calculatedPair';
 export * from './user.type';
