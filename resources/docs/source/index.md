@@ -415,9 +415,12 @@ print_r(json_decode((string) $body));
 
 APIs para realizar diferentes cálculos
 <!-- START_21ea5da444b8f98bd6ce6cab338015c5 -->
-## Problema: Calcular los pares
+## Calcular los pares
 Determina la cantidad de pares de números que tienen una diferencia igual al valor objetivo
 dentro de una matriz de enteros positivos.
+
+Debe enviar en las cabeceras el token de autorización
+Ejemplo: Authorization Bearer 1|slghn1EDIJjMvYNkAFQvnHGfPDl5srH8XM11Kyly
 
 > Example request:
 
@@ -500,5 +503,117 @@ Parameter | Type | Status | Description
         `objectiveValue` | integer |  required  | Valor objetivo que debe ser igual a la diferencia entre los pares.
     
 <!-- END_21ea5da444b8f98bd6ce6cab338015c5 -->
+
+<!-- START_4d53fd1188b03306597c0c248b8a7592 -->
+## Listar resultado de calculo de pares
+Obtiene los resultados del cálculo de pares de un usuario
+Debe enviar en las cabeceras el token de autorización
+Ejemplo: Authorization Bearer 1|slghn1EDIJjMvYNkAFQvnHGfPDl5srH8XM11Kyly
+
+> Example request:
+
+```bash
+curl -X GET \
+    -G "http://api-sugarcrm.casabaca.com/api/getCalculatedPairs" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}" \
+    -d '{"userEmail":"xavier.garcia@prometeo.dev"}'
+
+```
+
+```javascript
+const url = new URL(
+    "http://api-sugarcrm.casabaca.com/api/getCalculatedPairs"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+let body = {
+    "userEmail": "xavier.garcia@prometeo.dev"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+```php
+
+$client = new \GuzzleHttp\Client();
+$response = $client->get(
+    'http://api-sugarcrm.casabaca.com/api/getCalculatedPairs',
+    [
+        'headers' => [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer {token}',
+        ],
+        'json' => [
+            'userEmail' => 'xavier.garcia@prometeo.dev',
+        ],
+    ]
+);
+$body = $response->getBody();
+print_r(json_decode((string) $body));
+```
+
+
+> Example response (200):
+
+```json
+{
+    "data": [
+        {
+            "id": "asdasdasd",
+            "array": [
+                1,
+                5,
+                2,
+                4,
+                3
+            ],
+            "objective_value": 2,
+            "result": 3
+        },
+        {
+            "id": "asdasdasdddd",
+            "array": [
+                1,
+                2,
+                3
+            ],
+            "objective_value": 1,
+            "result": 2
+        }
+    ]
+}
+```
+> Example response (500):
+
+```json
+{
+    "message": "Unauthenticated.",
+    "status_code": 500
+}
+```
+
+### HTTP Request
+`GET api/getCalculatedPairs`
+
+#### Body Parameters
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    `userEmail` | email |  required  | Correo del usuario
+    
+<!-- END_4d53fd1188b03306597c0c248b8a7592 -->
 
 

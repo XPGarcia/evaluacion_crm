@@ -34,11 +34,11 @@ $api->version('v1', ['middleware' => ['api.throttle', 'auth:sanctum'], 'limit' =
     $api->get('asesores', 'App\Http\Controllers\UsersController@getAsesores');
 });
 
-$api->version('v1', ['middleware' => []], function ($api) {
+$api->version('v1', ['middleware' => ['auth:sanctum']], function ($api) {
     $api->post('calculatePairs', 'App\Http\Controllers\CalculatorController@calculatePairs');
 });
 
-$api->version('v1', ['middleware' => []], function ($api) {
+$api->version('v1', ['middleware' => ['auth:sanctum']], function ($api) {
     $api->get('getCalculatedPairs', 'App\Http\Controllers\CalculatorController@getCalculatedPairs');
 });
  

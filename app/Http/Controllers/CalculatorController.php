@@ -43,9 +43,11 @@ class CalculatorController extends BaseController
     }
 
     /**
-     * Problema: Calcular los pares
+     * Calcular los pares
      * Determina la cantidad de pares de números que tienen una diferencia igual al valor objetivo
-     * dentro de una matriz de enteros positivos. 
+     * dentro de una matriz de enteros positivos.
+     * Debe enviar en las cabeceras el token de autorización
+     * Ejemplo: Authorization Bearer 1|slghn1EDIJjMvYNkAFQvnHGfPDl5srH8XM11Kyly
      *
      * @bodyParam  userEmail email required  Email del usuario que realizó el cálculo. Example: xavier.garcia@prometeo.dev
      * @bodyParam  array array required  Matriz de enteros positivos. Example: [1, 2, 5, 4, 3]
@@ -87,7 +89,10 @@ class CalculatorController extends BaseController
     }
 
     /**
+     * Listar resultado de calculo de pares
      * Obtiene los resultados del cálculo de pares de un usuario
+     * Debe enviar en las cabeceras el token de autorización
+     * Ejemplo: Authorization Bearer 1|slghn1EDIJjMvYNkAFQvnHGfPDl5srH8XM11Kyly
      *
      * @bodyParam  userEmail email required Correo del usuario  Example: xavier.garcia@prometeo.dev
      *

@@ -20,7 +20,7 @@ export default function Login() {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const payload = {
-      autorizador: import.meta.env.VITE_AUTORIZADOR_LOGIN,
+      autorizador: import.meta.env.VITE_AUTORIZADOR_EMAIL,
       email: email,
       password: password,
       environment: 'dev',

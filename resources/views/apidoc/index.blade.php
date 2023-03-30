@@ -462,9 +462,11 @@ print_r(json_decode((string) $body));</code></pre>
 <h1>Calculador</h1>
 <p>APIs para realizar diferentes cálculos</p>
 <!-- START_21ea5da444b8f98bd6ce6cab338015c5 -->
-<h2>Problema: Calcular los pares</h2>
+<h2>Calcular los pares</h2>
 <p>Determina la cantidad de pares de números que tienen una diferencia igual al valor objetivo
 dentro de una matriz de enteros positivos.</p>
+<p>Debe enviar en las cabeceras el token de autorización
+Ejemplo: Authorization Bearer 1|slghn1EDIJjMvYNkAFQvnHGfPDl5srH8XM11Kyly</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -558,6 +560,117 @@ print_r(json_decode((string) $body));</code></pre>
 </tbody>
 </table>
 <!-- END_21ea5da444b8f98bd6ce6cab338015c5 -->
+<!-- START_4d53fd1188b03306597c0c248b8a7592 -->
+<h2>Listar resultado de calculo de pares</h2>
+<p>Obtiene los resultados del cálculo de pares de un usuario
+Debe enviar en las cabeceras el token de autorización
+Ejemplo: Authorization Bearer 1|slghn1EDIJjMvYNkAFQvnHGfPDl5srH8XM11Kyly</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET \
+    -G "http://api-sugarcrm.casabaca.com/api/getCalculatedPairs" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Authorization: Bearer {token}" \
+    -d '{"userEmail":"xavier.garcia@prometeo.dev"}'
+</code></pre>
+<pre><code class="language-javascript">const url = new URL(
+    "http://api-sugarcrm.casabaca.com/api/getCalculatedPairs"
+);
+
+let headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "Authorization": "Bearer {token}",
+};
+
+let body = {
+    "userEmail": "xavier.garcia@prometeo.dev"
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+    body: body
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<pre><code class="language-php">
+$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get(
+    'http://api-sugarcrm.casabaca.com/api/getCalculatedPairs',
+    [
+        'headers' =&gt; [
+            'Content-Type' =&gt; 'application/json',
+            'Accept' =&gt; 'application/json',
+            'Authorization' =&gt; 'Bearer {token}',
+        ],
+        'json' =&gt; [
+            'userEmail' =&gt; 'xavier.garcia@prometeo.dev',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "data": [
+        {
+            "id": "asdasdasd",
+            "array": [
+                1,
+                5,
+                2,
+                4,
+                3
+            ],
+            "objective_value": 2,
+            "result": 3
+        },
+        {
+            "id": "asdasdasdddd",
+            "array": [
+                1,
+                2,
+                3
+            ],
+            "objective_value": 1,
+            "result": 2
+        }
+    ]
+}</code></pre>
+<blockquote>
+<p>Example response (500):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "message": "Unauthenticated.",
+    "status_code": 500
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/getCalculatedPairs</code></p>
+<h4>Body Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>userEmail</code></td>
+<td>email</td>
+<td>required</td>
+<td>Correo del usuario</td>
+</tr>
+</tbody>
+</table>
+<!-- END_4d53fd1188b03306597c0c248b8a7592 -->
       </div>
       <div class="dark-box">
                         <div class="lang-selector">
