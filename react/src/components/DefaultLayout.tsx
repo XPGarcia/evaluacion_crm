@@ -34,7 +34,7 @@ export default function DefaultLayout() {
       <div className="container mx-auto px-6 md:px-0 py-10 md:py-14">
         <Outlet />
         <button
-          className="fixed right-10 bottom-14 bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded z-[999]"
+          className="fixed right-10 bottom-14 bg-red-600 hover:bg-red-700 text-white py-2 px-6 rounded z-40"
           onClick={logout}
         >
           Logout
